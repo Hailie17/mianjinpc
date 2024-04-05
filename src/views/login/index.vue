@@ -4,12 +4,12 @@
       <!-- title -->
       <template #header> 面经后台管理系统 </template>
       <!-- form -->
-      <el-form :model="ruleForm" status-icon label-width="60px">
-        <el-form-item label="账号">
-          <el-input type="password"></el-input>
+      <el-form :model="user" status-icon label-width="60px" :rules="rules">
+        <el-form-item label="账号" prop="username">
+          <el-input v-model="user.username" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input type="password"></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="user.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary">登录</el-button>
@@ -20,7 +20,28 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  data() {
+    return {
+      user: {
+        username: 'admin',
+        password: 'admin'
+      },
+      rules: {
+        username: [
+          { required: true, message: '请输入账号名称', trigger: ['blur', 'change'] },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: ['blur', 'change'] }
+        ],
+        password: [
+          { required: true, message: '请输入账号密码', trigger: ['blur', 'change'] },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: ['blur', 'change'] }
+        ]
+      }
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .login-page {
