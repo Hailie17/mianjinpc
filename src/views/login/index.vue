@@ -1,8 +1,12 @@
 <template>
-  <div class="">登录</div>
+  <div class="login-page">登录</div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.login-page {
+  height: 100vh;
+  background: url(@/assets/login-bg.svg) no-repeat center / cover;
+}
+</style>
