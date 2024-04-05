@@ -13,7 +13,7 @@ const request = axios.create({
 request.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-    config.headers.Authorization = 'Bearer ' + localStorage.getItem('mobile-token')
+    config.headers.Authorization = 'Bearer ' + localStorage.getItem('mj-pc-token')
     return config
   },
   function (error) {
@@ -27,7 +27,7 @@ request.interceptors.response.use(
   function (response) {},
   function (error) {
     if (error.response && error.response.code === 401) {
-      localStorage.removeItem('mobile-token')
+      localStorage.removeItem('mj-pc-token')
       router.push('/login')
     }
     return Promise.reject(error)
