@@ -1,8 +1,21 @@
 <template>
   <div class="login-page">
     <el-card>
+      <!-- title -->
       <template #header> 面经后台管理系统 </template>
-      登录框
+      <!-- form -->
+      <el-form :model="ruleForm" status-icon label-width="60px">
+        <el-form-item label="账号">
+          <el-input type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input type="password"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary">登录</el-button>
+          <el-button>重置</el-button>
+        </el-form-item>
+      </el-form>
     </el-card>
   </div>
 </template>
@@ -24,6 +37,9 @@
       background-color: #727cf5;
       color: #fff;
     }
+  }
+  .el-form {
+    padding-right: 20px;
   }
 }
 </style>
