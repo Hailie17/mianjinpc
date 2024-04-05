@@ -25,7 +25,7 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   function (response) {
-    return response
+    return response.data
   },
   function (error) {
     if (error.response && error.response.code === 401) {
