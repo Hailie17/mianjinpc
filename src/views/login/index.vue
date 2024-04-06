@@ -4,16 +4,16 @@
       <!-- title -->
       <template #header> 面经后台管理系统 </template>
       <!-- form -->
-      <el-form :model="user" status-icon label-width="60px" :rules="rules">
+      <el-form ref="form" :model="user" status-icon label-width="60px" :rules="rules">
         <el-form-item label="账号" prop="username">
-          <el-input v-model="user.username" type="password"></el-input>
+          <el-input v-model="user.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input v-model="user.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">登录</el-button>
-          <el-button>重置</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
+          <el-button @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { loginAPI } from '@/api/user'
 export default {
   data() {
     return {
@@ -38,6 +39,19 @@ export default {
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: ['blur', 'change'] }
         ]
       }
+    }
+  },
+  methods: {
+    login() {
+      this.$refs.form.validate(async valid => {
+        if (valid) {
+          const res = await loginAPI(this.user)
+          console.log(res)
+        }
+      })
+    },
+    reset() {
+      this.$refs.form.resetFields()
     }
   }
 }
