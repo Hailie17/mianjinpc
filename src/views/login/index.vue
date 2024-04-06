@@ -45,8 +45,18 @@ export default {
     login() {
       this.$refs.form.validate(async valid => {
         if (valid) {
-          const res = await loginAPI(this.user)
-          console.log(res)
+          try {
+            const res = await loginAPI(this.user)
+            this.$message.success('登陆成功')
+            localStorage.setItem('mj-pc-token', res.token)
+            this.$router.push('/dashboard')
+          } catch (error) {
+            if (error.response) {
+              this.$message.error(error.response.data.message)
+            } else {
+              this.$message.error('登陆失败')
+            }
+          }
         }
       })
     },
