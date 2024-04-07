@@ -9,3 +9,8 @@ export const loginAPI = data => {
 export const getUserAPI = () => {
   return request('/auth/currentUser')
 }
+
+// 获取统计数据
+export const getLineAPI = () => {
+  return request('/analysis/DailyVisitTrend')
+}

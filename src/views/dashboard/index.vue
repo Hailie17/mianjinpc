@@ -52,6 +52,7 @@
 
 <script>
 import * as echarts from 'echarts'
+import {get}
 export default {
   name: 'dashboard-page',
   data() {
