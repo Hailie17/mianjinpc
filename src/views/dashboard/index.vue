@@ -52,13 +52,17 @@
 
 <script>
 import * as echarts from 'echarts'
-import {get}
+import { getLineAPI } from '@/api/user'
 export default {
   name: 'dashboard-page',
   data() {
     return {
       myChart: ''
     }
+  },
+  async created() {
+    const res = await getLineAPI()
+    console.log(res, 'res')
   },
   mounted() {
     this.myChart = echarts.init(this.$refs.chartBox)
