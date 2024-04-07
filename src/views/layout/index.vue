@@ -50,6 +50,10 @@ export default {
       const res = await getUserAPI()
       this.avatar = res.data.avatar
       this.username = res.data.username
+    },
+    logout() {
+      localStorage.removeItem('mj-pc-token')
+      this.$router.push('/login')
     }
   }
 }
