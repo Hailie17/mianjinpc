@@ -6,6 +6,6 @@ export const loginAPI = data => {
 }
 
 // 获取用户信息
-export const getUserInfoAPI = () => {
+export const getUserAPI = () => {
   return request('/auth/currentUser')
 }
