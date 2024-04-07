@@ -50,6 +50,62 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+import * as echarts from 'echarts'
+export default {
+  name: 'dashboard-page',
+  data() {
+    return {
+      myChart: ''
+    }
+  },
+  mounted() {
+    this.myChart = echarts.init(this.$refs.chartBox)
+    const option = {
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line',
+          lineStyle: {
+            color: '#1bd4ae'
+          },
+          itemStyle: {
+            color: '#1bd4ae'
+          },
+          smooth: true, // 平滑曲线
+          // 面经区域样式
+          areaStyle: {
+            color: '#5ee0c6'
+          }
+        },
+        {
+          data: [360, 230, 101, 234, 190, 130, 320],
+          type: 'line',
+          lineStyle: {
+            color: '#5ab1ef'
+          },
+          itemStyle: {
+            color: '#5ab1ef'
+          },
+          smooth: true, // 平滑曲线
+          // 面经区域样式
+          areaStyle: {
+            color: '#5bbfe3'
+          }
+        }
+      ]
+    }
+    this.myChart.setOption(option)
+  }
+}
+</script>
 
 <style lang="scss" scoped></style>
