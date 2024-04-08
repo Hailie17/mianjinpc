@@ -69,7 +69,9 @@ export default {
       list: [],
       total: 0,
       drawer: false,
-      drawerType: ''
+      drawerType: '',
+      form: {},
+      rules: {} // 表单验证
     }
   },
   created() {
