@@ -13,3 +13,12 @@ export const getArticleListAPI = params => {
 export const addArticleAPI = data => {
   return request.post('/admin/interview/create', data)
 }
+
+// 删除面经
+export const deleteArticleAPI = id => {
+  return request({
+    url: '/admin/interview/remove',
+    method: 'DELETE',
+    data: { id }
+  })
+}

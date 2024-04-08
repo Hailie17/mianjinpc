@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { getArticleListAPI, addArticleAPI } from '@/api/article'
+import { getArticleListAPI, addArticleAPI, deleteArticleAPI } from '@/api/article'
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -92,8 +92,19 @@ export default {
       this.total = res.data.total
       this.list = res.data.rows
     },
-    del(id) {
+    async del(id) {
       console.log(id)
+      try {
+        await deleteArticleAPI(id)
+        this.initData()
+        this.$message.success('删除成功')
+      } catch (error) {
+        if (error.response) {
+          this.$message.error(error.response.data.message)
+        } else {
+          this.$message.error('删除失败')
+        }
+      }
     },
     handleSizeChange(val) {
       this.pageSize = val
@@ -112,10 +123,10 @@ export default {
       this.drawer = true
     },
     onSubmit() {
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate(async valid => {
         if (valid) {
           try {
-            addArticleAPI(this.form)
+            await addArticleAPI(this.form)
             this.handleClose()
             this.initData()
             this.$message.success('添加成功')
