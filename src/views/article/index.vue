@@ -22,7 +22,7 @@
           <template #default="{ row }">
             <div class="actions">
               <i class="el-icon-edit" @click="openDrawer('edit')"></i>
-              <i class="el-icon-share" @click="openDrawer('view')"></i>
+              <i class="el-icon-view" @click="openDrawer('view')"></i>
               <i class="el-icon-delete" @click="del(row.id)"></i>
             </div>
           </template>
@@ -33,7 +33,18 @@
     </el-card>
     <!-- 抽屉 -->
     <el-drawer :title="drawerTitle" :visible.sync="drawer">
-      <span>我来啦!</span>
+      <el-form label-width="80px">
+        <el-form-item label="标题">
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item label="内容">
+          <el-input></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary">确认</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
     </el-drawer>
   </div>
 </template>
