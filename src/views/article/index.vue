@@ -32,16 +32,16 @@
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="current" :page-size="pageSize" :page-sizes="[10, 15, 20, 30, 50]" layout="total, sizes, prev, pager, next" :total="total"> </el-pagination>
     </el-card>
     <!-- 抽屉 -->
-    <el-drawer :title="drawerTitle" :visible.sync="drawer" size="50%">
+    <el-drawer :title="drawerTitle" :visible.sync="drawer" size="50%" @close="handleClose">
       <el-form :model="form" ref="form" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="stem">
-          <el-input></el-input>
+          <el-input v-model="form.stem"></el-input>
         </el-form-item>
         <el-form-item label="内容" prop="content">
-          <quillEditor @blur="$refs.form.validateField('content')"></quillEditor>
+          <quillEditor v-model="form.content" @blur="$refs.form.validateField('content')"></quillEditor>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">确认</el-button>
+          <el-button type="primary" @click="onSubmit">确认</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { getArticleListAPI } from '@/api/article'
+import { getArticleListAPI, addArticleAPI } from '@/api/article'
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -103,9 +103,31 @@ export default {
       this.current = val
       this.initData()
     },
+    handleClose() {
+      this.drawer = false
+      this.$refs.form.resetFields()
+    },
     openDrawer(type, id) {
       this.drawerType = type
       this.drawer = true
+    },
+    onSubmit() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          try {
+            addArticleAPI(this.form)
+            this.handleClose()
+            this.initData()
+            this.$message.success('添加成功')
+          } catch (error) {
+            if (error.response) {
+              this.$message.error(error.response.data.message)
+            } else {
+              this.$message.error('添加失败')
+            }
+          }
+        }
+      })
     }
   },
   computed: {
