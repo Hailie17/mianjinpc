@@ -48,7 +48,8 @@ export default {
           try {
             const res = await loginAPI(this.user)
             this.$message.success('登陆成功')
-            localStorage.setItem('mj-pc-token', res.data.token)
+            // localStorage.setItem('mj-pc-token', res.data.token)
+            this.$store.commit('user/updateToken', res.data.token)
             this.$router.push('/dashboard')
           } catch (error) {
             if (error.response) {

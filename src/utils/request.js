@@ -1,6 +1,7 @@
 // 1. 导入
 import router from '@/router'
 import axios from 'axios'
+import store from '@/store'
 
 // 2. 配置
 // 创建实例
@@ -13,7 +14,8 @@ const request = axios.create({
 request.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
-    config.headers.Authorization = 'Bearer ' + localStorage.getItem('mj-pc-token')
+    const token = store.state.user.token
+    config.headers.Authorization = 'Bearer ' + token
     return config
   },
   function (error) {
@@ -29,7 +31,8 @@ request.interceptors.response.use(
   },
   function (error) {
     if (error.response && error.response.code === 401) {
-      localStorage.removeItem('mj-pc-token')
+      // localStorage.removeItem('mj-pc-token')
+      store.commit('user/updateToken', '')
       router.push('/login')
     }
     return Promise.reject(error)

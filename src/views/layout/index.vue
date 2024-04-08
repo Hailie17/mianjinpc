@@ -52,7 +52,8 @@ export default {
       this.username = res.data.username
     },
     logout() {
-      localStorage.removeItem('mj-pc-token')
+      // localStorage.removeItem('mj-pc-token')
+      this.$store.commit('user/updateToken', '')
       this.$router.push('/login')
     }
   }
