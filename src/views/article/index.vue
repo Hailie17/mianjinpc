@@ -33,12 +33,12 @@
     </el-card>
     <!-- 抽屉 -->
     <el-drawer :title="drawerTitle" :visible.sync="drawer" size="50%">
-      <el-form label-width="80px">
-        <el-form-item label="标题">
+      <el-form :model="form" ref="form" :rules="rules" label-width="80px">
+        <el-form-item label="标题" prop="stem">
           <el-input></el-input>
         </el-form-item>
-        <el-form-item label="内容">
-          <quillEditor></quillEditor>
+        <el-form-item label="内容" prop="content">
+          <quillEditor @blur="$refs.form.validateField('content')"></quillEditor>
         </el-form-item>
         <el-form-item>
           <el-button type="primary">确认</el-button>
@@ -75,8 +75,8 @@ export default {
         content: ''
       },
       rules: {
-        stem: [],
-        content: []
+        stem: [{ required: true, message: '标题必填', trigger: 'blur' }],
+        content: [{ required: true, message: '内容必填', trigger: 'blur' }]
       } // 表单验证
     }
   },
