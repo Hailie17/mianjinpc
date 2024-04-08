@@ -63,21 +63,27 @@ export default {
   async created() {
     const res = await getLineAPI()
     console.log(res, 'res')
+    this.myChart.setOption({
+      xAxis: {
+        data: res.data.list.map(item => item.ref_date)
+      },
+      series: [{ data: res.data.list.map(item => item.visit_pv) }, { data: res.data.list.map(item => item.visit_uv) }]
+    })
   },
   mounted() {
     this.myChart = echarts.init(this.$refs.chartBox)
     const option = {
       xAxis: {
         type: 'category',
-        boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        boundaryGap: false
+        // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
       },
       yAxis: {
         type: 'value'
       },
       series: [
         {
-          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          // data: [820, 932, 901, 934, 1290, 1330, 1320],
           type: 'line',
           lineStyle: {
             color: '#1bd4ae'
@@ -92,7 +98,7 @@ export default {
           }
         },
         {
-          data: [360, 230, 101, 234, 190, 130, 320],
+          // data: [360, 230, 101, 234, 190, 130, 320],
           type: 'line',
           lineStyle: {
             color: '#5ab1ef'
