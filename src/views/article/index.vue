@@ -8,7 +8,7 @@
       <template #header>
         <div class="header">
           <span>共 {{ total }} 条记录</span>
-          <el-button icon="el-icon-plus" size="small" type="primary" round> 添加面经 </el-button>
+          <el-button icon="el-icon-plus" size="small" type="primary" round @click="openDrawer('add')"> 添加面经 </el-button>
         </div>
       </template>
       <!-- table -->
@@ -21,8 +21,8 @@
         <el-table-column label="操作" width="120">
           <template #default="{ row }">
             <div class="actions">
-              <i class="el-icon-edit"></i>
-              <i class="el-icon-share"></i>
+              <i class="el-icon-edit" @click="openDrawer('edit')"></i>
+              <i class="el-icon-share" @click="openDrawer('view')"></i>
               <i class="el-icon-delete" @click="del(row.id)"></i>
             </div>
           </template>
@@ -31,6 +31,10 @@
       <!-- 分页 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="current" :page-size="pageSize" :page-sizes="[10, 15, 20, 30, 50]" layout="total, sizes, prev, pager, next" :total="total"> </el-pagination>
     </el-card>
+    <!-- 抽屉 -->
+    <el-drawer :title="drawerTitle" :visible.sync="drawer">
+      <span>我来啦!</span>
+    </el-drawer>
   </div>
 </template>
 
@@ -43,7 +47,9 @@ export default {
       current: 1,
       pageSize: 10,
       list: [],
-      total: 0
+      total: 0,
+      drawer: false,
+      drawerType: ''
     }
   },
   created() {
@@ -68,6 +74,21 @@ export default {
     handleCurrentChange(val) {
       this.current = val
       this.initData()
+    },
+    openDrawer(type, id) {
+      this.drawerType = type
+      this.drawer = true
+    }
+  },
+  computed: {
+    drawerTitle() {
+      if (this.drawerType === 'edit') {
+        return '编辑面经'
+      } else if (this.drawerType === 'add') {
+        return '添加面经'
+      } else {
+        return '面经详情'
+      }
     }
   }
 }
