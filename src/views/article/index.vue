@@ -7,19 +7,68 @@
     <el-card shadow="never" border="false">
       <template #header>
         <div class="header">
-          <span>共 300 条记录</span>
+          <span>共 {{ total }} 条记录</span>
           <el-button icon="el-icon-plus" size="small" type="primary" round> 添加面经 </el-button>
         </div>
       </template>
+      <!-- table -->
+      <el-table :data="list" stripe style="width: 100%">
+        <el-table-column prop="stem" label="标题" width="400"> </el-table-column>
+        <el-table-column prop="creator" label="作者"> </el-table-column>
+        <el-table-column prop="likeCount" label="点赞"> </el-table-column>
+        <el-table-column prop="views" label="浏览"> </el-table-column>
+        <el-table-column prop="createdAt" label="更新日期" width="180"> </el-table-column>
+        <el-table-column label="操作" width="120">
+          <template #default="{ row }">
+            <div class="actions">
+              <i class="el-icon-edit"></i>
+              <i class="el-icon-share"></i>
+              <i class="el-icon-delete" @click="del(row.id)"></i>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 分页 -->
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="current" :page-size="pageSize" :page-sizes="[10, 15, 20, 30, 50]" layout="total, sizes, prev, pager, next" :total="total"> </el-pagination>
     </el-card>
   </div>
 </template>
 
 <script>
+import { getArticleListAPI } from '@/api/article'
 export default {
   name: 'article-page',
   data() {
-    return {}
+    return {
+      current: 1,
+      pageSize: 10,
+      list: [],
+      total: 0
+    }
+  },
+  created() {
+    this.initData()
+  },
+  methods: {
+    async initData() {
+      const res = await getArticleListAPI({
+        current: this.current,
+        pageSize: this.pageSize
+      })
+      this.total = res.data.total
+      this.list = res.data.rows
+    },
+    del(id) {
+      console.log(id)
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.initData()
+    },
+    handleCurrentChange(val) {
+      this.current = val
+      this.initData()
+    }
   }
 }
 </script>
