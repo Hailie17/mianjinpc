@@ -32,13 +32,13 @@
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="current" :page-size="pageSize" :page-sizes="[10, 15, 20, 30, 50]" layout="total, sizes, prev, pager, next" :total="total"> </el-pagination>
     </el-card>
     <!-- 抽屉 -->
-    <el-drawer :title="drawerTitle" :visible.sync="drawer">
+    <el-drawer :title="drawerTitle" :visible.sync="drawer" size="50%">
       <el-form label-width="80px">
         <el-form-item label="标题">
           <el-input></el-input>
         </el-form-item>
         <el-form-item label="内容">
-          <el-input></el-input>
+          <quillEditor></quillEditor>
         </el-form-item>
         <el-form-item>
           <el-button type="primary">确认</el-button>
@@ -51,8 +51,17 @@
 
 <script>
 import { getArticleListAPI } from '@/api/article'
+
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import { quillEditor } from 'vue-quill-editor'
+
 export default {
   name: 'article-page',
+  components: {
+    quillEditor
+  },
   data() {
     return {
       current: 1,
