@@ -42,7 +42,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">确认</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="handleClose">取消</el-button>
         </el-form-item>
       </el-form>
     </el-drawer>
@@ -105,7 +105,7 @@ export default {
     },
     handleClose() {
       this.drawer = false
-      this.$refs.form.resetFields()
+      this.$refs.form.resetFields() //重置表单
     },
     openDrawer(type, id) {
       this.drawerType = type
