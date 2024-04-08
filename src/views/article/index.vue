@@ -92,6 +92,7 @@ export default {
       this.total = res.data.total
       this.list = res.data.rows
     },
+    // 删除
     async del(id) {
       console.log(id)
       try {
@@ -122,6 +123,7 @@ export default {
       this.drawerType = type
       this.drawer = true
     },
+    // 添加
     onSubmit() {
       this.$refs.form.validate(async valid => {
         if (valid) {
