@@ -70,8 +70,14 @@ export default {
       total: 0,
       drawer: false,
       drawerType: '',
-      form: {},
-      rules: {} // 表单验证
+      form: {
+        stem: '',
+        content: ''
+      },
+      rules: {
+        stem: [],
+        content: []
+      } // 表单验证
     }
   },
   created() {
