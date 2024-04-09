@@ -33,7 +33,7 @@
     </el-card>
     <!-- 抽屉 -->
     <el-drawer :title="drawerTitle" :visible.sync="drawer" size="50%" @close="handleClose">
-      <el-form :model="form" ref="form" :rules="rules" label-width="80px">
+      <el-form v-if="drawerType !== 'view'" :model="form" ref="form" :rules="rules" label-width="80px">
         <el-form-item label="标题" prop="stem">
           <el-input v-model="form.stem"></el-input>
         </el-form-item>
@@ -45,6 +45,10 @@
           <el-button @click="handleClose">取消</el-button>
         </el-form-item>
       </el-form>
+      <div v-else class="article-preview">
+        <h5>{{ form.stem }}</h5>
+        <div v-html="form.content"></div>
+      </div>
     </el-drawer>
   </div>
 </template>
@@ -117,7 +121,7 @@ export default {
     },
     handleClose() {
       this.drawer = false
-      this.$refs.form.resetFields() //重置表单
+      this.$refs.form?.resetFields() //重置表单  ?.可选链操作符
       delete this.form.id // 删除对象的属性
     },
     // 打开抽屉
@@ -125,7 +129,6 @@ export default {
       this.drawerType = type
       if (type !== 'add') {
         const res = await getArticleAPI(id)
-        console.log(res)
         this.form.stem = res.data.stem
         this.form.content = res.data.content
         this.form.id = res.data.id
