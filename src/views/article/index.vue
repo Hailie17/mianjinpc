@@ -21,8 +21,8 @@
         <el-table-column label="操作" width="120">
           <template #default="{ row }">
             <div class="actions">
-              <i class="el-icon-edit" @click="openDrawer('edit')"></i>
-              <i class="el-icon-view" @click="openDrawer('view')"></i>
+              <i class="el-icon-edit" @click="openDrawer('edit', row.id)"></i>
+              <i class="el-icon-view" @click="openDrawer('view', row.id)"></i>
               <i class="el-icon-delete" @click="del(row.id)"></i>
             </div>
           </template>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { getArticleListAPI, addArticleAPI, deleteArticleAPI } from '@/api/article'
+import { getArticleListAPI, addArticleAPI, deleteArticleAPI, getArticleAPI, updateArticleAPI } from '@/api/article'
 
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -118,25 +118,49 @@ export default {
     handleClose() {
       this.drawer = false
       this.$refs.form.resetFields() //重置表单
+      delete this.form.id // 删除对象的属性
     },
-    openDrawer(type, id) {
+    // 打开抽屉
+    async openDrawer(type, id) {
       this.drawerType = type
+      if (type !== 'add') {
+        const res = await getArticleAPI(id)
+        console.log(res)
+        this.form.stem = res.data.stem
+        this.form.content = res.data.content
+        this.form.id = res.data.id
+      }
       this.drawer = true
     },
-    // 添加
+    // 添加 / 修改操作
     onSubmit() {
       this.$refs.form.validate(async valid => {
         if (valid) {
-          try {
-            await addArticleAPI(this.form)
-            this.handleClose()
-            this.initData()
-            this.$message.success('添加成功')
-          } catch (error) {
-            if (error.response) {
-              this.$message.error(error.response.data.message)
-            } else {
-              this.$message.error('添加失败')
+          if (this.drawerType === 'add') {
+            try {
+              await addArticleAPI(this.form)
+              this.handleClose()
+              this.initData()
+              this.$message.success('添加成功')
+            } catch (error) {
+              if (error.response) {
+                this.$message.error(error.response.data.message)
+              } else {
+                this.$message.error('添加失败')
+              }
+            }
+          } else {
+            try {
+              await updateArticleAPI(this.form)
+              this.handleClose()
+              this.initData()
+              this.$message.success('编辑成功')
+            } catch (error) {
+              if (error.response) {
+                this.$message.error(error.response.data.message)
+              } else {
+                this.$message.error('编辑失败')
+              }
             }
           }
         }

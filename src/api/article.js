@@ -22,3 +22,20 @@ export const deleteArticleAPI = id => {
     data: { id }
   })
 }
+
+// 获取面经详情
+export const getArticleAPI = id => {
+  return request({
+    url: '/admin/interview/show',
+    params: { id }
+  })
+}
+
+// 修改面经
+export const updateArticleAPI = data => {
+  return request({
+    method: 'PUT',
+    url: '/admin/interview/update',
+    data: data
+  })
+}
